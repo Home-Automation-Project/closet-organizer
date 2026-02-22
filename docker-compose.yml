@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-closetpass}
       POSTGRES_DB: ${POSTGRES_DB:-closetdb}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-closet}"]
       interval: 5s
@@ -54,6 +54,5 @@ services:
       - api
 
 volumes:
-  postgres_data:
   mosquitto_data:
   mosquitto_log:
