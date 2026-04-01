@@ -13,15 +13,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    labels:
-      - "traefik.enable=true"
-      - "traefik.tcp.routers.closet-db.rule=HostSNI(`db-postgres.lthome.com`)"
-      - "traefik.tcp.routers.closet-db.entrypoints=postgres"
-      - "traefik.tcp.routers.closet-db.tls=true"
-      - "traefik.tcp.services.closet-db.loadbalancer.server.port=5432"
-    networks:
-      - traefik
-      - default
 
   broker:
     image: eclipse-mosquitto:2
@@ -43,16 +34,9 @@ services:
       APSCHEDULER_DB_URL: postgresql+psycopg2://${POSTGRES_USER:-closet}:${POSTGRES_PASSWORD:-closetpass}@db/${POSTGRES_DB:-closetdb}
       MQTT_BROKER_HOST: broker
       MQTT_BROKER_PORT: 1883
-      APP_HOST: ${APP_HOST:-https://api-closet.lthome.com}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.closet-api.rule=Host(`api-closet.lthome.com`)"
-      - "traefik.http.routers.closet-api.entrypoints=websecure"
-      - "traefik.http.routers.closet-api.tls=true"
-      - "traefik.http.services.closet-api.loadbalancer.server.port=8000"
-    networks:
-      - traefik
-      - default
+      APP_HOST: ${APP_HOST:-http://localhost}
+    ports:
+      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -64,21 +48,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.closet-frontend.rule=Host(`closet.lthome.com`)"
-      - "traefik.http.routers.closet-frontend.entrypoints=websecure"
-      - "traefik.http.routers.closet-frontend.tls=true"
-      - "traefik.http.services.closet-frontend.loadbalancer.server.port=80"
-    networks:
-      - traefik
-      - default
+    ports:
+      - "80:80"
     depends_on:
       - api
-
-networks:
-  traefik:
-    external: true
 
 volumes:
   mosquitto_data:
