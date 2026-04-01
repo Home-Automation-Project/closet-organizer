@@ -35,7 +35,7 @@ services:
       - mosquitto_log:/mosquitto/log
 
   api:
-    build: ./backend
+    image: docker.lthome.us:5000/had/closet-backend:latest
     restart: unless-stopped
     env_file: .env
     environment:
@@ -60,9 +60,7 @@ services:
         condition: service_started
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: docker.lthome.us:5000/had/closet-frontend:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
