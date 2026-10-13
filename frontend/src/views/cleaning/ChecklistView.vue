@@ -70,6 +70,7 @@ const roomLabels = {
   library: 'Library', kitchen: 'Kitchen', dining_room: 'Dining Room', gym: 'Gym',
   bedroom: 'Bedroom', bathroom: 'Bathroom', playroom: 'Playroom', hallways: 'Hallways',
   laundry_room: 'Laundry Room', garage: 'Garage', family_room: 'Family Room', filters: 'Filters',
+  winterization: 'Winterization',
 }
 const roomLabel = computed(() => roomLabels[room.value] || room.value.replace(/_/g, ' '))
 

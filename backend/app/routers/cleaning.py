@@ -14,7 +14,7 @@ router = APIRouter(prefix="/cleaning", tags=["cleaning"])
 ROOMS = [
     "library", "kitchen", "dining_room", "gym", "bedroom",
     "bathroom", "playroom", "hallways", "laundry_room", "garage", "family_room",
-    "filters",
+    "filters", "winterization",
 ]
 
 
