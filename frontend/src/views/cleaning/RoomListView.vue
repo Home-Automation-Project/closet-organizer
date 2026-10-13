@@ -19,18 +19,18 @@
 <script setup>
 const rooms = [
   'library', 'kitchen', 'dining_room', 'gym', 'bedroom',
-  'bathroom', 'playroom', 'hallways', 'laundry_room', 'garage', 'family_room'
+  'bathroom', 'playroom', 'hallways', 'laundry_room', 'garage', 'family_room', 'filters'
 ]
 
 const icons = {
   library: '📚', kitchen: '🍳', dining_room: '🍽️', gym: '🏋️',
   bedroom: '🛏️', bathroom: '🚿', playroom: '🧸', hallways: '🚪',
-  laundry_room: '👕', garage: '🚗', family_room: '📺',
+  laundry_room: '👕', garage: '🚗', family_room: '📺', filters: '🧰',
 }
 const labels = {
   library: 'Library', kitchen: 'Kitchen', dining_room: 'Dining Room', gym: 'Gym',
   bedroom: 'Bedroom', bathroom: 'Bathroom', playroom: 'Playroom', hallways: 'Hallways',
-  laundry_room: 'Laundry Room', garage: 'Garage', family_room: 'Family Room',
+  laundry_room: 'Laundry Room', garage: 'Garage', family_room: 'Family Room', filters: 'Filters',
 }
 function roomIcon(r) { return icons[r] || '🏠' }
 function roomLabel(r) { return labels[r] || r.replace(/_/g, ' ') }

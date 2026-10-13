@@ -32,6 +32,9 @@ class ItemFrequency(str, enum.Enum):
     DAILY = "DAILY"
     WEEKLY = "WEEKLY"
     MONTHLY = "MONTHLY"
+    QUARTERLY = "QUARTERLY"
+    SIX_MONTHS = "SIX_MONTHS"
+    ANNUAL = "ANNUAL"
     SEASONAL = "SEASONAL"
 
 

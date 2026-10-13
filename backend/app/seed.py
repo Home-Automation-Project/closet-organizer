@@ -239,6 +239,8 @@ CHECKLIST_ITEMS = [
     ("gym", "Air & Smell", "gym_wash_towels", "Wash gym towels", ItemFrequency.WEEKLY, 8),
     ("gym", "Seasonal Deep Clean", "gym_deep_clean_mats", "Deep clean foam/rubber mats", ItemFrequency.SEASONAL, 9),
     ("gym", "Seasonal Deep Clean", "gym_clean_fans", "Clean fans and air circulation units", ItemFrequency.SEASONAL, 10),
+    ("gym", "Seasonal Deep Clean", "gym_clean_windows", "Clean windows and sills", ItemFrequency.SEASONAL, 11),
+    ("gym", "Seasonal Deep Clean", "gym_oil_equipment", "Oil and maintain gym equipment", ItemFrequency.SEASONAL, 12),
 
     # ---- PLAYROOM ----
     ("playroom", "Toys", "playroom_tidy_toys", "Tidy and return toys to bins", ItemFrequency.DAILY, 1),
@@ -300,6 +302,17 @@ CHECKLIST_ITEMS = [
     ("family_room", "Seasonal Deep Clean", "family_wash_curtains", "Wash curtains and window treatments", ItemFrequency.SEASONAL, 10),
     ("family_room", "Seasonal Deep Clean", "family_clean_fireplace", "Clean fireplace/mantel (if applicable)", ItemFrequency.SEASONAL, 11),
     ("family_room", "Seasonal Deep Clean", "family_dust_ceiling_fan", "Dust ceiling fan and light fixtures", ItemFrequency.MONTHLY, 12),
+
+    # ---- FILTERS ----
+    ("filters", "Monthly", "filters_room_filters_vacuumed", "Room filters vacuumed", ItemFrequency.MONTHLY, 1),
+    ("filters", "Quarterly", "filters_furnace_filter", "Furnace filter", ItemFrequency.QUARTERLY, 2),
+    ("filters", "Quarterly", "filters_robot_vacuum_filters", "Robot vacuum filters", ItemFrequency.QUARTERLY, 3),
+    ("filters", "6 months", "filters_fridge_filter", "Fridge filter", ItemFrequency.SIX_MONTHS, 4),
+    ("filters", "6 months", "filters_water_sink_filter", "Water sink filter", ItemFrequency.SIX_MONTHS, 5),
+    ("filters", "6 months", "filters_sediment_filter", "Sediment filter", ItemFrequency.SIX_MONTHS, 6),
+    ("filters", "6 months", "filters_water_softener", "Water softener", ItemFrequency.SIX_MONTHS, 7),
+    ("filters", "Annual", "filters_flush_hot_water_heater", "Flush hot water heater", ItemFrequency.ANNUAL, 8),
+    ("filters", "Annual", "filters_replace_air_filters", "Replace air filters", ItemFrequency.ANNUAL, 9),
 ]
 
 

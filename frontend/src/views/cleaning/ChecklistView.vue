@@ -53,15 +53,23 @@ const room = computed(() => route.params.room)
 const loading = ref(false)
 const error = ref(null)
 
-const orderedFrequencies = ['DAILY', 'WEEKLY', 'MONTHLY', 'SEASONAL']
+const orderedFrequencies = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'SIX_MONTHS', 'SEASONAL', 'ANNUAL']
 
-const freqLabels = { DAILY: '🔁 Daily', WEEKLY: '📅 Weekly', MONTHLY: '📆 Monthly', SEASONAL: '🌿 Seasonal' }
+const freqLabels = {
+  DAILY: '🔁 Daily',
+  WEEKLY: '📅 Weekly',
+  MONTHLY: '📆 Monthly',
+  QUARTERLY: '🗓️ Quarterly',
+  SIX_MONTHS: '🗓️ Every 6 months',
+  SEASONAL: '🌿 Seasonal',
+  ANNUAL: '📘 Annual',
+}
 function freqLabel(f) { return freqLabels[f] || f }
 
 const roomLabels = {
   library: 'Library', kitchen: 'Kitchen', dining_room: 'Dining Room', gym: 'Gym',
   bedroom: 'Bedroom', bathroom: 'Bathroom', playroom: 'Playroom', hallways: 'Hallways',
-  laundry_room: 'Laundry Room', garage: 'Garage', family_room: 'Family Room',
+  laundry_room: 'Laundry Room', garage: 'Garage', family_room: 'Family Room', filters: 'Filters',
 }
 const roomLabel = computed(() => roomLabels[room.value] || room.value.replace(/_/g, ' '))
 
