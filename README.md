@@ -222,6 +222,46 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed setup instructions.
 
 ---
 
+## Deployment
+
+### Hosting Options
+
+The application supports several deployment architectures:
+
+**Option 1: GitHub Pages + External API (Recommended)**
+- Frontend hosted on GitHub Pages (static, free)
+- Backend API hosted on Railway, Render, Heroku, or AWS
+- See [GITHUB_PAGES_DEPLOYMENT.md](./GITHUB_PAGES_DEPLOYMENT.md) for setup
+
+**Option 2: Docker (Self-Hosted)**
+- Deploy entire application using Docker Compose
+- Run on any server, VPS, or home network
+- See [docker-compose.yml](./docker-compose.yml)
+
+**Option 3: Cloud Platform (AWS, Azure, GCP)**
+- Both frontend and backend on cloud platform
+- Managed services for scaling
+
+### Getting Started with Deployment
+
+1. **Frontend only** (GitHub Pages):
+   - See [GITHUB_PAGES_DEPLOYMENT.md](./GITHUB_PAGES_DEPLOYMENT.md)
+   - Automatic deployments on every git push
+   - Free hosting on `https://username.github.io/closet-organizer`
+
+2. **Backend API hosting**:
+   - See [BACKEND_DEPLOYMENT.md](./BACKEND_DEPLOYMENT.md)
+   - Railway.app: Easiest setup (~$5/mo)
+   - Render.com: Free tier available
+   - AWS Lightsail: Best value (~$3.50/mo)
+   - Heroku: Established platform (~$7/mo)
+
+3. **Full Docker deployment**:
+   - See [docker-compose.yml](./docker-compose.yml)
+   - Run locally or on any server with Docker installed
+
+---
+
 ## Architecture
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for a comprehensive guide to:
@@ -230,6 +270,15 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for a comprehensive guide to:
 - Frontend changes and integration
 - Setup and deployment instructions
 - Migration guide from previous database-based architecture
+
+---
+
+## Documentation
+
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** — Complete architecture overview and reference
+- **[GITHUB_PAGES_DEPLOYMENT.md](./GITHUB_PAGES_DEPLOYMENT.md)** — Deploy frontend to GitHub Pages
+- **[BACKEND_DEPLOYMENT.md](./BACKEND_DEPLOYMENT.md)** — Deploy backend API to various providers
+- **[REFACTOR_SUMMARY.md](./REFACTOR_SUMMARY.md)** — Summary of architectural changes
 
 ---
 

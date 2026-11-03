@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 from contextlib import asynccontextmanager
 
@@ -16,6 +17,26 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def get_allowed_origins():
+    """
+    Get CORS allowed origins from environment or defaults.
+    
+    Environment variable: CORS_ORIGINS (comma-separated)
+    Defaults to localhost for development.
+    """
+    cors_env = os.getenv("CORS_ORIGINS", "")
+    if cors_env:
+        return [origin.strip() for origin in cors_env.split(",")]
+    
+    # Development defaults
+    return [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ]
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # ------------------------------------------------------------------ #
@@ -23,6 +44,7 @@ async def lifespan(app: FastAPI):
     # ------------------------------------------------------------------ #
     logger.info("Closet Organizer API starting...")
     logger.info("Data sources: Static JSON + Google Sheets")
+    logger.info(f"Allowed CORS origins: {get_allowed_origins()}")
 
     yield
 
@@ -39,9 +61,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=get_allowed_origins(),
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

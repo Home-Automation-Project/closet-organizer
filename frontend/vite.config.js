@@ -9,12 +9,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      },
-    },
+  // GitHub Pages base path
+  // Change 'closet-organizer' to your repository name if different
+  base: '/closet-organizer/',
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
   },
 })

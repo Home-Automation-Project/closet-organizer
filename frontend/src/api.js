@@ -1,17 +1,40 @@
-import axios from 'axios'
-
-const api = axios.create({ baseURL: '/api' })
-
-export default api
+import { GoogleSheetsClient } from '@/services/gsheets'
 
 /**
  * DATA SOURCES
  * 
- * This application has been refactored to use:
+ * This application uses:
  * - Static JSON files for: closets, family, first aid kits, cleaning schedules
- * - Google Sheets for: inventory items, reminders (via backend proxy)
- * - No database or MQTT dependencies
+ *   (bundled with the app at build time, version-controlled in Git)
+ * - Google Sheets for: inventory items, reminders
+ *   (read/written directly from browser via Google Sheets API)
+ * - No backend API or database needed
  */
+
+// Initialize Google Sheets client (configured from environment)
+let gsheets = null
+
+export function initializeGoogleSheets() {
+  const config = {
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
+    apiKey: import.meta.env.VITE_GOOGLE_API_KEY || '',
+    inventorySheetId: import.meta.env.VITE_INVENTORY_SHEET_ID || '',
+    remindersSheetId: import.meta.env.VITE_REMINDERS_SHEET_ID || '',
+  }
+
+  // Only initialize if credentials are provided
+  if (!config.clientId || !config.apiKey) {
+    console.warn('Google Sheets not configured. Inventory and reminders will not work.')
+    return false
+  }
+
+  gsheets = new GoogleSheetsClient(config)
+  return true
+}
+
+export function getGoogleSheetsClient() {
+  return gsheets
+}
 
 // ---------------------------------------------------------------------------
 // Closets (Static JSON)
