@@ -100,8 +100,24 @@ Replace `YOUR_USERNAME` with your actual GitHub username.
 - Still in Credentials page
 - Click "CREATE CREDENTIALS" again
 - Choose "API Key"
-- Copy the key (it's a long string)
+- A popup shows your new API key (long string starting with `AIza...`)
+- Click "COPY" to copy the key
 - **Save it somewhere safe** — you'll need it in Step 4
+
+### 2.7 Restrict API Key (Important!)
+
+**By default, API keys have no restrictions. You MUST restrict this key to Google Sheets only for security.**
+
+After creating the API key, click on it in the Credentials list to edit it:
+
+1. Find your new API key in the Credentials list
+2. Click on it to open the edit page
+3. Scroll to "API restrictions"
+4. Click "Restrict key"
+5. Select "Google Sheets API" from the dropdown
+6. Click "SAVE"
+
+**Why restrict?** This prevents anyone who finds your API key from using it to access other Google APIs. This is a security best practice.
 
 ## Step 3: Create Google Sheets
 
