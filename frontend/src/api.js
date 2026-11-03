@@ -3,12 +3,13 @@ import { GoogleSheetsClient } from '@/services/gsheets'
 /**
  * DATA SOURCES
  * 
- * This application uses:
+ * This application is completely static and uses:
  * - Static JSON files for: closets, family, first aid kits, cleaning schedules
  *   (bundled with the app at build time, version-controlled in Git)
- * - Google Sheets for: inventory items, reminders
+ * - Google Sheets API for: inventory items, reminders
  *   (read/written directly from browser via Google Sheets API)
  * - No backend API or database needed
+ * - No backend server required
  */
 
 // Initialize Google Sheets client (configured from environment)
@@ -36,72 +37,241 @@ export function getGoogleSheetsClient() {
   return gsheets
 }
 
-// ---------------------------------------------------------------------------
-// Closets (Static JSON)
-// ---------------------------------------------------------------------------
-export const getClosets = () => api.get('/closets')
-export const getCloset = (id) => api.get(`/closets/${id}`)
-export const createCloset = (data) => api.post('/closets', data)
-export const updateCloset = (id, data) => api.put(`/closets/${id}`, data)
-export const deleteCloset = (id) => api.delete(`/closets/${id}`)
+/**
+ * Load JSON data from bundled files
+ */
+async function loadJSON(path) {
+  try {
+    const response = await fetch(path)
+    if (!response.ok) throw new Error(`Failed to load ${path}`)
+    return await response.json()
+  } catch (error) {
+    console.error(`Error loading ${path}:`, error)
+    throw error
+  }
+}
 
-// Shelves (Static JSON)
-export const getShelves = (closetId) => api.get('/shelves', { params: { closet_id: closetId } })
-export const createShelf = (data) => api.post('/shelves', data)
-export const updateShelf = (id, data) => api.put(`/shelves/${id}`, data)
-export const deleteShelf = (id) => api.delete(`/shelves/${id}`)
+/**
+ * Cached JSON data
+ */
+let closetsData = null
+let familyData = null
+let firstaidData = null
+let cleaningData = null
 
-// Baskets (Static JSON)
-export const getBaskets = (shelfId) => api.get('/baskets', { params: { shelf_id: shelfId } })
-export const createBasket = (data) => api.post('/baskets', data)
-export const updateBasket = (id, data) => api.put(`/baskets/${id}`, data)
-export const deleteBasket = (id) => api.delete(`/baskets/${id}`)
+/**
+ * STATIC DATA LOADERS (from JSON files)
+ */
 
-// ---------------------------------------------------------------------------
-// Inventory (Google Sheets via backend)
-// ---------------------------------------------------------------------------
-export const getBasketInventory = (basketId) => api.get(`/inventory/basket/${basketId}`)
-export const upsertInventoryItem = (basketId, itemName, data) =>
-  api.put(`/inventory/basket/${basketId}/item/${itemName}`, data)
-export const deleteInventoryItem = (id) => api.delete(`/inventory/item/${id}`)
-export const scanBasket = (qrToken) => api.get(`/inventory/scan/${qrToken}`)
-export const getBasketQrUrl = (basketId) => `/api/inventory/basket/${basketId}/qr.png`
+export async function getClosets() {
+  if (!closetsData) {
+    closetsData = await loadJSON('/data/closets.json')
+  }
+  return closetsData.closets || []
+}
 
-// ---------------------------------------------------------------------------
-// Reminders (Google Sheets via backend)
-// ---------------------------------------------------------------------------
-export const getWashReminders = () => api.get('/reminders/wash')
-export const acknowledgeWashReminder = (id) => api.patch(`/reminders/wash/${id}/acknowledge`)
-export const getSeasonalReminders = () => api.get('/reminders/seasonal')
-export const acknowledgeSeasonalReminder = (id) => api.patch(`/reminders/seasonal/${id}/acknowledge`)
+export async function getCloset(closetId) {
+  const closets = await getClosets()
+  return closets.find((c) => c.id === closetId)
+}
 
-// ---------------------------------------------------------------------------
-// Cleaning (Static JSON)
-// ---------------------------------------------------------------------------
-export const getRooms = () => api.get('/cleaning/rooms')
-export const getRoomChecklist = (room, sessionToken) =>
-  api.get(`/cleaning/${room}`, { params: sessionToken ? { session_token: sessionToken } : {} })
-export const completeItem = (room, itemKey, sessionToken) =>
-  api.post(`/cleaning/${room}/complete/${itemKey}`, null, { params: { session_token: sessionToken } })
-export const uncompleteItem = (room, itemKey, sessionToken) =>
-  api.delete(`/cleaning/${room}/complete/${itemKey}`, { params: { session_token: sessionToken } })
-export const resetSession = (room, sessionToken) =>
-  api.delete(`/cleaning/${room}/session`, { params: { session_token: sessionToken } })
+export async function getShelves(closetId) {
+  const closet = await getCloset(closetId)
+  return closet ? closet.shelves || [] : []
+}
 
-// ---------------------------------------------------------------------------
-// First Aid (Static JSON)
-// ---------------------------------------------------------------------------
-export const getBasicKit = (category) =>
-  api.get('/firstaid/kit/basic', { params: category ? { category } : {} })
-export const getAdvancedBins = () => api.get('/firstaid/kit/advanced/bins')
-export const getAdvancedKit = (subBin) =>
-  api.get('/firstaid/kit/advanced', { params: subBin ? { sub_bin: subBin } : {} })
-export const getCprSteps = () => api.get('/firstaid/cpr')
+export async function getBaskets(shelfId) {
+  // Find the shelf across all closets
+  const closets = await getClosets()
+  for (const closet of closets) {
+    const shelf = closet.shelves?.find((s) => s.id === shelfId)
+    if (shelf) return shelf.baskets || []
+  }
+  return []
+}
 
-// ---------------------------------------------------------------------------
-// Family (Static JSON)
-// ---------------------------------------------------------------------------
-export const getFamilyMembers = () => api.get('/family')
-export const createFamilyMember = (data) => api.post('/family', data)
-export const updateFamilyMember = (id, data) => api.put(`/family/${id}`, data)
-export const deleteFamilyMember = (id) => api.delete(`/family/${id}`)
+/**
+ * FAMILY (Static JSON)
+ */
+
+export async function getFamilyMembers() {
+  if (!familyData) {
+    familyData = await loadJSON('/data/family.json')
+  }
+  return familyData.members || []
+}
+
+export async function getFamilyMember(memberId) {
+  const members = await getFamilyMembers()
+  return members.find((m) => m.id === memberId)
+}
+
+/**
+ * FIRST AID (Static JSON)
+ */
+
+export async function getFirstaidData() {
+  if (!firstaidData) {
+    firstaidData = await loadJSON('/data/firstaid.json')
+  }
+  return firstaidData
+}
+
+export async function getBasicKitItems(category = null) {
+  const data = await getFirstaidData()
+  const items = data.basicKit?.items || []
+  if (category) {
+    return items.filter((item) => item.category === category)
+  }
+  return items
+}
+
+export async function getAdvancedKitBins() {
+  const data = await getFirstaidData()
+  return data.advancedKit?.bins || []
+}
+
+export async function getAdvancedKitItems(binLabel = null) {
+  const data = await getFirstaidData()
+  const items = data.advancedKit?.items || []
+  if (binLabel) {
+    return items.filter((item) => item.bin === binLabel)
+  }
+  return items
+}
+
+export async function getCprSteps() {
+  const data = await getFirstaidData()
+  return data.cpr || {}
+}
+
+/**
+ * CLEANING (Static JSON)
+ */
+
+export async function getCleaningData() {
+  if (!cleaningData) {
+    cleaningData = await loadJSON('/data/cleaning.json')
+  }
+  return cleaningData
+}
+
+export async function getRooms() {
+  const data = await getCleaningData()
+  return data.rooms || []
+}
+
+export async function getRoom(roomId) {
+  const rooms = await getRooms()
+  return rooms.find((r) => r.id === roomId)
+}
+
+/**
+ * INVENTORY (Google Sheets via browser)
+ */
+
+export async function getBasketInventory(basketId) {
+  if (!gsheets || !gsheets.isAuthenticated) {
+    console.warn('Google Sheets not authenticated. Inventory not available.')
+    return []
+  }
+
+  try {
+    return await gsheets.getInventory(basketId)
+  } catch (error) {
+    console.error('Failed to get inventory:', error)
+    return []
+  }
+}
+
+export async function updateInventoryItem(basketId, itemName, quantity, expirationDate = null, notes = '') {
+  if (!gsheets || !gsheets.isAuthenticated) {
+    throw new Error('Google Sheets not authenticated. Please log in first.')
+  }
+
+  return await gsheets.updateInventoryItem(basketId, itemName, quantity, expirationDate, notes)
+}
+
+export async function deleteInventoryItem(basketId, itemName) {
+  if (!gsheets || !gsheets.isAuthenticated) {
+    throw new Error('Google Sheets not authenticated. Please log in first.')
+  }
+
+  return await gsheets.deleteInventoryItem(basketId, itemName)
+}
+
+/**
+ * REMINDERS (Google Sheets via browser)
+ */
+
+export async function getReminders() {
+  if (!gsheets || !gsheets.isAuthenticated) {
+    console.warn('Google Sheets not authenticated. Reminders not available.')
+    return []
+  }
+
+  try {
+    return await gsheets.getReminders()
+  } catch (error) {
+    console.error('Failed to get reminders:', error)
+    return []
+  }
+}
+
+export async function createReminder(category, text, dueDate = null) {
+  if (!gsheets || !gsheets.isAuthenticated) {
+    throw new Error('Google Sheets not authenticated. Please log in first.')
+  }
+
+  return await gsheets.createReminder(category, text, dueDate)
+}
+
+export async function acknowledgeReminder(reminderId) {
+  if (!gsheets || !gsheets.isAuthenticated) {
+    throw new Error('Google Sheets not authenticated. Please log in first.')
+  }
+
+  return await gsheets.acknowledgeReminder(reminderId)
+}
+
+/**
+ * AUTHENTICATION (Google Account)
+ */
+
+export async function authenticateGoogle() {
+  if (!gsheets) {
+    console.error('Google Sheets not initialized')
+    return false
+  }
+
+  try {
+    return await gsheets.authenticate()
+  } catch (error) {
+    console.error('Google authentication failed:', error)
+    throw error
+  }
+}
+
+export async function signOutGoogle() {
+  if (!gsheets) {
+    return
+  }
+
+  try {
+    await gsheets.signOut()
+  } catch (error) {
+    console.error('Google sign out failed:', error)
+  }
+}
+
+export function getCurrentGoogleUser() {
+  if (!gsheets) {
+    return null
+  }
+
+  return gsheets.getCurrentUser()
+}
+
+export function isGoogleAuthenticated() {
+  return gsheets && gsheets.isAuthenticated
+}

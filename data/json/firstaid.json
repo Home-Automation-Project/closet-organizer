@@ -1,0 +1,882 @@
+{
+  "description": "First Aid Kit Definitions - Both basic and advanced kits",
+  "basicKit": {
+    "items": [
+      {
+        "name": "Assorted adhesive bandages (variety sizes)",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 30,
+        "unit": "pieces"
+      },
+      {
+        "name": "Steri-Strips",
+        "category": "Wound Care",
+        "hasExpiration": true,
+        "recommendedQty": 10,
+        "unit": "strips"
+      },
+      {
+        "name": "Non-stick pads",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 10,
+        "unit": "pieces"
+      },
+      {
+        "name": "Gauze 2x2",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 12,
+        "unit": "pieces"
+      },
+      {
+        "name": "Gauze 4x4",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 12,
+        "unit": "pieces"
+      },
+      {
+        "name": "Rolled gauze",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "rolls"
+      },
+      {
+        "name": "Medical tape (paper)",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "rolls"
+      },
+      {
+        "name": "Medical tape (cloth)",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "rolls"
+      },
+      {
+        "name": "Liquid bandage",
+        "category": "Wound Care",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Hemostatic dressing (small pack)",
+        "category": "Wound Care",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "pack"
+      },
+      {
+        "name": "Triple antibiotic ointment",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "tubes"
+      },
+      {
+        "name": "Hydrocortisone 1%",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Antifungal cream",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Burn gel",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Lidocaine topical",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Calamine lotion",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Acetaminophen",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Ibuprofen",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Aspirin (adult)",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Diphenhydramine",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "box"
+      },
+      {
+        "name": "Loratadine",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "box"
+      },
+      {
+        "name": "Loperamide",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "box"
+      },
+      {
+        "name": "Oral rehydration salts",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "packets"
+      },
+      {
+        "name": "Electrolyte powder",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 6,
+        "unit": "packets"
+      },
+      {
+        "name": "Glucose tabs",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Ondansetron ODT (if prescribed)",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "pack"
+      },
+      {
+        "name": "Digital thermometer",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Pulse oximeter",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "BP cuff",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Stethoscope",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Penlight",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Trauma shears",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Tweezers",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Eye wash",
+        "category": "Basic Assessment",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Saline flush",
+        "category": "Basic Assessment",
+        "hasExpiration": true,
+        "recommendedQty": 4,
+        "unit": "syringes"
+      },
+      {
+        "name": "Finger splint",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Instant cold packs",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "packs"
+      },
+      {
+        "name": "Nitrile gloves",
+        "category": "PPE",
+        "hasExpiration": false,
+        "recommendedQty": 10,
+        "unit": "pairs"
+      },
+      {
+        "name": "CPR mask",
+        "category": "Basic Assessment",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      }
+    ]
+  },
+  "advancedKit": {
+    "bins": [
+      {
+        "id": "TRAUMA",
+        "label": "Trauma",
+        "categories": ["Bleeding Control", "Chest Injury", "Tools"]
+      },
+      {
+        "id": "WOUND",
+        "label": "Wound",
+        "categories": ["Wound Care", "Topicals"]
+      },
+      {
+        "id": "AIRWAY",
+        "label": "Airway",
+        "categories": ["Airway Management", "Ventilation"]
+      },
+      {
+        "id": "BURN",
+        "label": "Burn",
+        "categories": ["Burn Care"]
+      },
+      {
+        "id": "IMMOB",
+        "label": "Immobilization",
+        "categories": ["Immobilisation"]
+      },
+      {
+        "id": "MEDS",
+        "label": "Medications",
+        "categories": ["Medications"]
+      },
+      {
+        "id": "DX",
+        "label": "Diagnostics",
+        "categories": ["Diagnostics", "Respiratory"]
+      },
+      {
+        "id": "PROCEDURE",
+        "label": "Procedures",
+        "categories": ["Procedures", "PPE"]
+      },
+      {
+        "id": "PPE",
+        "label": "PPE",
+        "categories": ["PPE"]
+      },
+      {
+        "id": "DOCS",
+        "label": "Documentation",
+        "categories": ["Documentation"]
+      },
+      {
+        "id": "WATER",
+        "label": "Rehydration",
+        "categories": ["Rehydration"]
+      },
+      {
+        "id": "COMFORT",
+        "label": "Comfort",
+        "categories": ["Comfort"]
+      }
+    ],
+    "items": [
+      {
+        "name": "Tourniquet CAT or SOFT-T (x2)",
+        "subBin": "TRAUMA",
+        "category": "Bleeding Control",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Israeli pressure bandage",
+        "subBin": "TRAUMA",
+        "category": "Bleeding Control",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Hemostatic gauze (QuikClot/Celox)",
+        "subBin": "TRAUMA",
+        "category": "Bleeding Control",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "packs"
+      },
+      {
+        "name": "Chest seals (vented pair)",
+        "subBin": "TRAUMA",
+        "category": "Chest Injury",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "pair"
+      },
+      {
+        "name": "Occlusive dressing (backup)",
+        "subBin": "TRAUMA",
+        "category": "Chest Injury",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Trauma shears (heavy-duty)",
+        "subBin": "TRAUMA",
+        "category": "Tools",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Non-adherent dressings",
+        "subBin": "WOUND",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 10,
+        "unit": "pieces"
+      },
+      {
+        "name": "Saline irrigation (500mL)",
+        "subBin": "WOUND",
+        "category": "Wound Care",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "bottles"
+      },
+      {
+        "name": "Irrigation syringe 60mL",
+        "subBin": "WOUND",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Rolled gauze",
+        "subBin": "WOUND",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "rolls"
+      },
+      {
+        "name": "Gauze 4x4 sterile",
+        "subBin": "WOUND",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 20,
+        "unit": "pieces"
+      },
+      {
+        "name": "Medical tape",
+        "subBin": "WOUND",
+        "category": "Wound Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "rolls"
+      },
+      {
+        "name": "Triple antibiotic ointment",
+        "subBin": "WOUND",
+        "category": "Topicals",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "tubes"
+      },
+      {
+        "name": "Oropharyngeal airways (assorted)",
+        "subBin": "AIRWAY",
+        "category": "Airway Management",
+        "hasExpiration": false,
+        "recommendedQty": 3,
+        "unit": "units"
+      },
+      {
+        "name": "Nasopharyngeal airway + lubricant",
+        "subBin": "AIRWAY",
+        "category": "Airway Management",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "set"
+      },
+      {
+        "name": "Bag-valve mask (adult)",
+        "subBin": "AIRWAY",
+        "category": "Ventilation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Suction device (manual)",
+        "subBin": "AIRWAY",
+        "category": "Airway Management",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Water gel dressings",
+        "subBin": "BURN",
+        "category": "Burn Care",
+        "hasExpiration": true,
+        "recommendedQty": 4,
+        "unit": "units"
+      },
+      {
+        "name": "Non-adherent burn sheets",
+        "subBin": "BURN",
+        "category": "Burn Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Large sterile sheets",
+        "subBin": "BURN",
+        "category": "Burn Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Burn gel",
+        "subBin": "BURN",
+        "category": "Burn Care",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "tubes"
+      },
+      {
+        "name": "Emergency blankets",
+        "subBin": "BURN",
+        "category": "Burn Care",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "SAM splints (full)",
+        "subBin": "IMMOB",
+        "category": "Immobilisation",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "SAM splints (finger)",
+        "subBin": "IMMOB",
+        "category": "Immobilisation",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "units"
+      },
+      {
+        "name": "Triangular bandages",
+        "subBin": "IMMOB",
+        "category": "Immobilisation",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "units"
+      },
+      {
+        "name": "Elastic wraps",
+        "subBin": "IMMOB",
+        "category": "Immobilisation",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "rolls"
+      },
+      {
+        "name": "Pelvic binder",
+        "subBin": "IMMOB",
+        "category": "Immobilisation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Aspirin 325mg chewable",
+        "subBin": "MEDS",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "pack"
+      },
+      {
+        "name": "EpiPen (if prescribed)",
+        "subBin": "MEDS",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Nitroglycerin (if prescribed)",
+        "subBin": "MEDS",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Rescue inhaler (if prescribed)",
+        "subBin": "MEDS",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Electrolyte powder",
+        "subBin": "MEDS",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 6,
+        "unit": "packets"
+      },
+      {
+        "name": "Glucose tabs",
+        "subBin": "MEDS",
+        "category": "Medications",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Pulse oximeter (backup)",
+        "subBin": "DX",
+        "category": "Diagnostics",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "ECG device (portable)",
+        "subBin": "DX",
+        "category": "Diagnostics",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Extra ECG electrodes",
+        "subBin": "DX",
+        "category": "Diagnostics",
+        "hasExpiration": true,
+        "recommendedQty": 10,
+        "unit": "sets"
+      },
+      {
+        "name": "Manual BP cuff",
+        "subBin": "DX",
+        "category": "Diagnostics",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Stethoscope (cardiac grade)",
+        "subBin": "DX",
+        "category": "Diagnostics",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Glucometer + strips + lancets",
+        "subBin": "DX",
+        "category": "Diagnostics",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "set"
+      },
+      {
+        "name": "Nebulizer",
+        "subBin": "DX",
+        "category": "Respiratory",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Peak flow meter",
+        "subBin": "DX",
+        "category": "Respiratory",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Sterile suture kit",
+        "subBin": "PROCEDURE",
+        "category": "Procedures",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "kit"
+      },
+      {
+        "name": "Skin stapler",
+        "subBin": "PROCEDURE",
+        "category": "Procedures",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "unit"
+      },
+      {
+        "name": "Lidocaine (if legal to store)",
+        "subBin": "PROCEDURE",
+        "category": "Procedures",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "vial"
+      },
+      {
+        "name": "Irrigation syringe 60mL",
+        "subBin": "PROCEDURE",
+        "category": "Procedures",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "units"
+      },
+      {
+        "name": "Sterile saline (large bottle)",
+        "subBin": "PROCEDURE",
+        "category": "Procedures",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Sterile drapes",
+        "subBin": "PROCEDURE",
+        "category": "Procedures",
+        "hasExpiration": true,
+        "recommendedQty": 2,
+        "unit": "packs"
+      },
+      {
+        "name": "Sterile gloves",
+        "subBin": "PROCEDURE",
+        "category": "PPE",
+        "hasExpiration": true,
+        "recommendedQty": 4,
+        "unit": "pairs"
+      },
+      {
+        "name": "Nitrile gloves (box)",
+        "subBin": "PPE",
+        "category": "PPE",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "box"
+      },
+      {
+        "name": "Eye protection (goggles)",
+        "subBin": "PPE",
+        "category": "PPE",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "pairs"
+      },
+      {
+        "name": "N95 masks",
+        "subBin": "PPE",
+        "category": "PPE",
+        "hasExpiration": true,
+        "recommendedQty": 10,
+        "unit": "units"
+      },
+      {
+        "name": "Surgical masks",
+        "subBin": "PPE",
+        "category": "PPE",
+        "hasExpiration": true,
+        "recommendedQty": 20,
+        "unit": "units"
+      },
+      {
+        "name": "Emergency med forms",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 5,
+        "unit": "sheets"
+      },
+      {
+        "name": "Family medical history sheet",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "sheet"
+      },
+      {
+        "name": "Drug allergy list",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "sheet"
+      },
+      {
+        "name": "Notepad + waterproof pen",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "set"
+      },
+      {
+        "name": "Sharpie (for TQ time marking)",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 2,
+        "unit": "markers"
+      },
+      {
+        "name": "Protocol cards",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "set"
+      },
+      {
+        "name": "Emergency contacts",
+        "subBin": "DOCS",
+        "category": "Documentation",
+        "hasExpiration": false,
+        "recommendedQty": 1,
+        "unit": "sheet"
+      },
+      {
+        "name": "Oral rehydration salts",
+        "subBin": "WATER",
+        "category": "Rehydration",
+        "hasExpiration": true,
+        "recommendedQty": 4,
+        "unit": "packets"
+      },
+      {
+        "name": "Electrolyte powder",
+        "subBin": "WATER",
+        "category": "Rehydration",
+        "hasExpiration": true,
+        "recommendedQty": 6,
+        "unit": "packets"
+      },
+      {
+        "name": "Clean water pouches",
+        "subBin": "WATER",
+        "category": "Rehydration",
+        "hasExpiration": true,
+        "recommendedQty": 6,
+        "unit": "pouches"
+      },
+      {
+        "name": "Instant cold packs",
+        "subBin": "COMFORT",
+        "category": "Comfort",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "packs"
+      },
+      {
+        "name": "Heat packs",
+        "subBin": "COMFORT",
+        "category": "Comfort",
+        "hasExpiration": false,
+        "recommendedQty": 4,
+        "unit": "packs"
+      },
+      {
+        "name": "Hydrocortisone 1% (anti-itch)",
+        "subBin": "COMFORT",
+        "category": "Comfort",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tube"
+      },
+      {
+        "name": "Calamine lotion",
+        "subBin": "COMFORT",
+        "category": "Comfort",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "bottle"
+      },
+      {
+        "name": "Diphenhydramine",
+        "subBin": "COMFORT",
+        "category": "Comfort",
+        "hasExpiration": true,
+        "recommendedQty": 1,
+        "unit": "tablet"
+      }
+    ]
+  }
+}

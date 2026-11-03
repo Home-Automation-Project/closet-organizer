@@ -1,0 +1,38 @@
+{
+  "description": "Family member medical information",
+  "members": [
+    {
+      "id": "member_1",
+      "name": "John Doe",
+      "dateOfBirth": "1980-01-15",
+      "bloodType": "O+",
+      "allergies": "Penicillin",
+      "medications": "None",
+      "medicalConditions": "Asthma",
+      "emergencyContact": "Jane Doe (555-1234)",
+      "notes": "Carries rescue inhaler"
+    },
+    {
+      "id": "member_2",
+      "name": "Jane Doe",
+      "dateOfBirth": "1982-03-20",
+      "bloodType": "A+",
+      "allergies": "None",
+      "medications": "Lisinopril 10mg daily",
+      "medicalConditions": "Hypertension",
+      "emergencyContact": "John Doe (555-1234)",
+      "notes": "Regular blood pressure monitoring"
+    },
+    {
+      "id": "member_3",
+      "name": "Child One",
+      "dateOfBirth": "2010-06-10",
+      "bloodType": "O+",
+      "allergies": "None",
+      "medications": "None",
+      "medicalConditions": "None",
+      "emergencyContact": "John Doe (555-1234)",
+      "notes": "Vaccinations up to date"
+    }
+  ]
+}
