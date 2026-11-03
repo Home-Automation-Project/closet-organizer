@@ -1,0 +1,104 @@
+{
+  "description": "Closet organization structure",
+  "closets": [
+    {
+      "id": "closet_1",
+      "name": "Linen Closet",
+      "location": "Hallway",
+      "shelves": [
+        {
+          "id": "shelf_1",
+          "label": "Top Shelf",
+          "positionOrder": 0,
+          "baskets": [
+            {
+              "id": "basket_1",
+              "label": "Towels - Bath",
+              "type": "BEDDING",
+              "positionOrder": 0
+            },
+            {
+              "id": "basket_2",
+              "label": "Towels - Hand",
+              "type": "BEDDING",
+              "positionOrder": 1
+            }
+          ]
+        },
+        {
+          "id": "shelf_2",
+          "label": "Middle Shelf",
+          "positionOrder": 1,
+          "baskets": [
+            {
+              "id": "basket_3",
+              "label": "Bed Sheets - Queen",
+              "type": "BEDDING",
+              "positionOrder": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "closet_2",
+      "name": "First Aid - Basic",
+      "location": "Bedroom",
+      "shelves": [
+        {
+          "id": "shelf_3",
+          "label": "Main Shelf",
+          "positionOrder": 0,
+          "baskets": [
+            {
+              "id": "basket_4",
+              "label": "First Aid Basic Kit",
+              "type": "FIRST_AID_BASIC",
+              "positionOrder": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "closet_3",
+      "name": "First Aid - Advanced",
+      "location": "Bedroom",
+      "shelves": [
+        {
+          "id": "shelf_4",
+          "label": "Main Shelf",
+          "positionOrder": 0,
+          "baskets": [
+            {
+              "id": "basket_5",
+              "label": "First Aid Advanced Kit",
+              "type": "FIRST_AID_ADVANCED",
+              "positionOrder": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "closet_4",
+      "name": "Cleaning Supplies",
+      "location": "Laundry Room",
+      "shelves": [
+        {
+          "id": "shelf_5",
+          "label": "Main Shelf",
+          "positionOrder": 0,
+          "baskets": [
+            {
+              "id": "basket_6",
+              "label": "Cleaning Supplies",
+              "type": "CLEANING",
+              "positionOrder": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

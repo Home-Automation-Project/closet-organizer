@@ -106,6 +106,21 @@ export async function getFamilyMember(memberId) {
   return members.find((m) => m.id === memberId)
 }
 
+export async function createFamilyMember(data) {
+  console.warn('Family data is static. To add family members, edit data/family.json and commit to Git.')
+  throw new Error('Family data is read-only. Edit data/family.json to make changes.')
+}
+
+export async function updateFamilyMember(memberId, data) {
+  console.warn('Family data is static. To update family members, edit data/family.json and commit to Git.')
+  throw new Error('Family data is read-only. Edit data/family.json to make changes.')
+}
+
+export async function deleteFamilyMember(memberId) {
+  console.warn('Family data is static. To delete family members, edit data/family.json and commit to Git.')
+  throw new Error('Family data is read-only. Edit data/family.json to make changes.')
+}
+
 /**
  * FIRST AID (Static JSON)
  */
@@ -117,6 +132,11 @@ export async function getFirstaidData() {
   return firstaidData
 }
 
+export async function getBasicKit() {
+  const data = await getFirstaidData()
+  return data.basicKit || {}
+}
+
 export async function getBasicKitItems(category = null) {
   const data = await getFirstaidData()
   const items = data.basicKit?.items || []
@@ -126,9 +146,14 @@ export async function getBasicKitItems(category = null) {
   return items
 }
 
-export async function getAdvancedKitBins() {
+export async function getAdvancedBins() {
   const data = await getFirstaidData()
   return data.advancedKit?.bins || []
+}
+
+export async function getAdvancedKit() {
+  const data = await getFirstaidData()
+  return data.advancedKit || {}
 }
 
 export async function getAdvancedKitItems(binLabel = null) {

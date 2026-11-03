@@ -1,0 +1,102 @@
+{
+  "description": "Cleaning schedules and checklists",
+  "rooms": [
+    {
+      "id": "kitchen",
+      "label": "Kitchen",
+      "categories": [
+        {
+          "category": "Counters & Sink",
+          "items": [
+            {
+              "key": "kitchen_wipe_counters",
+              "description": "Wipe counters and clear clutter",
+              "frequency": "DAILY",
+              "sortOrder": 1
+            },
+            {
+              "key": "kitchen_clean_sink",
+              "description": "Clean and sanitize sink",
+              "frequency": "DAILY",
+              "sortOrder": 2
+            },
+            {
+              "key": "kitchen_deep_clean_counters",
+              "description": "Deep clean backsplash",
+              "frequency": "WEEKLY",
+              "sortOrder": 3
+            }
+          ]
+        },
+        {
+          "category": "Appliances",
+          "items": [
+            {
+              "key": "kitchen_clean_microwave",
+              "description": "Clean microwave interior",
+              "frequency": "WEEKLY",
+              "sortOrder": 4
+            },
+            {
+              "key": "kitchen_wipe_appliances",
+              "description": "Wipe stove exterior",
+              "frequency": "WEEKLY",
+              "sortOrder": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bathroom",
+      "label": "Bathroom",
+      "categories": [
+        {
+          "category": "Toilet & Sink",
+          "items": [
+            {
+              "key": "bathroom_clean_toilet",
+              "description": "Clean and scrub toilet",
+              "frequency": "DAILY",
+              "sortOrder": 1
+            },
+            {
+              "key": "bathroom_clean_sink",
+              "description": "Clean and sanitize sink",
+              "frequency": "WEEKLY",
+              "sortOrder": 2
+            }
+          ]
+        },
+        {
+          "category": "Shower & Tub",
+          "items": [
+            {
+              "key": "bathroom_clean_shower",
+              "description": "Scrub shower/tub",
+              "frequency": "WEEKLY",
+              "sortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bedroom",
+      "label": "Bedroom",
+      "categories": [
+        {
+          "category": "Floors",
+          "items": [
+            {
+              "key": "bedroom_vacuum_floor",
+              "description": "Vacuum or sweep floor",
+              "frequency": "WEEKLY",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

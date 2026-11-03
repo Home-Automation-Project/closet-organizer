@@ -1,54 +1,51 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getBasketInventory, upsertInventoryItem, deleteInventoryItem, scanBasket } from '@/api'
+import { getBasketInventory, updateInventoryItem, deleteInventoryItem } from '@/api'
 
 export const useInventoryStore = defineStore('inventory', () => {
-  const basket = ref(null)
+  const items = ref([])
   const loading = ref(false)
   const error = ref(null)
+  const currentBasketId = ref(null)
 
-  async function fetchBasket(id) {
+  async function fetchBasket(basketId) {
     loading.value = true
     error.value = null
+    currentBasketId.value = basketId
     try {
-      const res = await getBasketInventory(id)
-      basket.value = res.data
+      items.value = await getBasketInventory(basketId)
     } catch (e) {
       error.value = e.message
+      console.error('Failed to fetch inventory:', e)
+      items.value = []
     } finally {
       loading.value = false
     }
   }
 
-  async function fetchByToken(token) {
-    loading.value = true
-    error.value = null
+  async function updateItem(basketId, itemName, quantity, expirationDate = null, notes = '') {
     try {
-      const res = await scanBasket(token)
-      basket.value = res.data
+      await updateInventoryItem(basketId, itemName, quantity, expirationDate, notes)
+      // Refresh the list
+      await fetchBasket(basketId)
     } catch (e) {
       error.value = e.message
-    } finally {
-      loading.value = false
+      console.error('Failed to update inventory:', e)
+      throw e
     }
   }
 
-  async function updateItem(basketId, itemDefId, data) {
-    const res = await upsertInventoryItem(basketId, itemDefId, data)
-    if (basket.value) {
-      const idx = basket.value.inventory.findIndex(i => i.item_definition_id === itemDefId)
-      if (idx !== -1) basket.value.inventory[idx] = res.data
-      else basket.value.inventory.push(res.data)
-    }
-    return res.data
-  }
-
-  async function removeItem(inventoryId) {
-    await deleteInventoryItem(inventoryId)
-    if (basket.value) {
-      basket.value.inventory = basket.value.inventory.filter(i => i.id !== inventoryId)
+  async function removeItem(basketId, itemName) {
+    try {
+      await deleteInventoryItem(basketId, itemName)
+      // Refresh the list
+      await fetchBasket(basketId)
+    } catch (e) {
+      error.value = e.message
+      console.error('Failed to delete inventory:', e)
+      throw e
     }
   }
 
-  return { basket, loading, error, fetchBasket, fetchByToken, updateItem, removeItem }
+  return { items, loading, error, currentBasketId, fetchBasket, updateItem, removeItem }
 })

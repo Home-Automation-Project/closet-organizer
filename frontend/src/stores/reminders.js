@@ -1,35 +1,39 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { getWashReminders, acknowledgeWashReminder,
-         getSeasonalReminders, acknowledgeSeasonalReminder } from '@/api'
+import { getReminders, acknowledgeReminder } from '@/api'
 
 export const useReminderStore = defineStore('reminders', () => {
-  const washReminders = ref([])
-  const seasonalReminders = ref([])
+  const reminders = ref([])
+  const loading = ref(false)
+  const error = ref(null)
 
-  const allActive = computed(() => [
-    ...washReminders.value.map(r => ({ ...r, kind: 'wash' })),
-    ...seasonalReminders.value.map(r => ({ ...r, kind: 'seasonal' })),
-  ])
+  const allActive = computed(() => {
+    return reminders.value.filter(r => !r.acknowledged)
+  })
 
   async function fetchAll() {
-    const [wash, seasonal] = await Promise.all([
-      getWashReminders(),
-      getSeasonalReminders(),
-    ])
-    washReminders.value = wash.data
-    seasonalReminders.value = seasonal.data
+    loading.value = true
+    error.value = null
+    try {
+      reminders.value = await getReminders()
+    } catch (e) {
+      error.value = e.message
+      console.error('Failed to fetch reminders:', e)
+    } finally {
+      loading.value = false
+    }
   }
 
-  async function ackWash(id) {
-    await acknowledgeWashReminder(id)
-    washReminders.value = washReminders.value.filter(r => r.id !== id)
+  async function acknowledge(id) {
+    try {
+      await acknowledgeReminder(id)
+      // Remove from list
+      reminders.value = reminders.value.filter(r => r.id !== id)
+    } catch (e) {
+      error.value = e.message
+      console.error('Failed to acknowledge reminder:', e)
+    }
   }
 
-  async function ackSeasonal(id) {
-    await acknowledgeSeasonalReminder(id)
-    seasonalReminders.value = seasonalReminders.value.filter(r => r.id !== id)
-  }
-
-  return { washReminders, seasonalReminders, allActive, fetchAll, ackWash, ackSeasonal }
+  return { reminders, loading, error, allActive, fetchAll, acknowledge }
 })
