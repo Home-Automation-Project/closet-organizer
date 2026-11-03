@@ -1,47 +1,18 @@
+version: '3.8'
+
 services:
-  db:
-    image: postgres:16
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-closet}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-closetpass}
-      POSTGRES_DB: ${POSTGRES_DB:-closetdb}
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-closet} -d ${POSTGRES_DB:-closetdb}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
-  broker:
-    image: eclipse-mosquitto:2
-    restart: unless-stopped
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    volumes:
-      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - mosquitto_data:/mosquitto/data
-      - mosquitto_log:/mosquitto/log
-
   api:
     build: ./backend
     restart: unless-stopped
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-closet}:${POSTGRES_PASSWORD:-closetpass}@db/${POSTGRES_DB:-closetdb}
-      APSCHEDULER_DB_URL: postgresql+psycopg2://${POSTGRES_USER:-closet}:${POSTGRES_PASSWORD:-closetpass}@db/${POSTGRES_DB:-closetdb}
-      MQTT_BROKER_HOST: broker
-      MQTT_BROKER_PORT: 1883
+      GOOGLE_SHEET_INVENTORY_ID: ${GOOGLE_SHEET_INVENTORY_ID:-}
+      GOOGLE_SHEET_REMINDERS_ID: ${GOOGLE_SHEET_REMINDERS_ID:-}
       APP_HOST: ${APP_HOST:-http://localhost}
     ports:
       - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-      broker:
-        condition: service_started
+    volumes:
+      - ./data/json:/app/data/json
 
   frontend:
     build:
@@ -50,9 +21,8 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
     depends_on:
       - api
 
-volumes:
-  mosquitto_data:
-  mosquitto_log:

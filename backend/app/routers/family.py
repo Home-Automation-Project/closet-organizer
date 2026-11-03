@@ -1,41 +1,38 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, HTTPException
 
-from app.dependencies import get_db
-from app.crud import crud
-from app.schemas.schemas import FamilyMemberCreate, FamilyMemberOut, FamilyMemberUpdate
+from app.data_loader import DataLoader
 
 router = APIRouter(prefix="/family", tags=["family"])
 
 
-@router.get("", response_model=List[FamilyMemberOut])
-async def list_members(db: AsyncSession = Depends(get_db)):
-    return await crud.get_family_members(db)
+@router.get("")
+async def list_members():
+    """Get all family members."""
+    return DataLoader.get_family_members()
 
 
-@router.post("", response_model=FamilyMemberOut, status_code=201)
-async def create_member(data: FamilyMemberCreate, db: AsyncSession = Depends(get_db)):
-    return await crud.create_family_member(db, data)
+@router.post("", status_code=201)
+async def create_member(data: dict):
+    """Create a family member (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Creating family members not implemented - data is static JSON")
 
 
-@router.get("/{member_id}", response_model=FamilyMemberOut)
-async def get_member(member_id: int, db: AsyncSession = Depends(get_db)):
-    obj = await crud.get_family_member(db, member_id)
-    if not obj:
+@router.get("/{member_id}")
+async def get_member(member_id: str):
+    """Get a single family member."""
+    member = DataLoader.get_family_member(member_id)
+    if not member:
         raise HTTPException(404, "Member not found")
-    return obj
+    return member
 
 
-@router.put("/{member_id}", response_model=FamilyMemberOut)
-async def update_member(member_id: int, data: FamilyMemberUpdate, db: AsyncSession = Depends(get_db)):
-    obj = await crud.update_family_member(db, member_id, data)
-    if not obj:
-        raise HTTPException(404, "Member not found")
-    return obj
+@router.put("/{member_id}")
+async def update_member(member_id: str, data: dict):
+    """Update a family member (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Updating family members not implemented - data is static JSON")
 
 
 @router.delete("/{member_id}", status_code=204)
-async def delete_member(member_id: int, db: AsyncSession = Depends(get_db)):
-    if not await crud.delete_family_member(db, member_id):
-        raise HTTPException(404, "Member not found")
+async def delete_member(member_id: str):
+    """Delete a family member (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Deleting family members not implemented - data is static JSON")

@@ -1,49 +1,21 @@
+version: '3.8'
+
 services:
-  db:
-    image: postgres:16
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-closet}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-closetpass}
-      POSTGRES_DB: ${POSTGRES_DB:-closetdb}
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-closet} -d ${POSTGRES_DB:-closetdb}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    labels:
-      - "traefik.enable=true"
-      - "traefik.tcp.routers.closet-db.rule=HostSNI(`db-postgres.lthome.com`)"
-      - "traefik.tcp.routers.closet-db.entrypoints=postgres"
-      - "traefik.tcp.routers.closet-db.tls=true"
-      - "traefik.tcp.services.closet-db.loadbalancer.server.port=5432"
-    networks:
-      - traefik
-      - default
-
-  broker:
-    image: eclipse-mosquitto:2
-    restart: unless-stopped
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    volumes:
-      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - mosquitto_data:/mosquitto/data
-      - mosquitto_log:/mosquitto/log
-
   api:
     image: docker.lthome.us:5000/had/closet-backend:latest
     restart: unless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-closet}:${POSTGRES_PASSWORD:-closetpass}@db/${POSTGRES_DB:-closetdb}
-      APSCHEDULER_DB_URL: postgresql+psycopg2://${POSTGRES_USER:-closet}:${POSTGRES_PASSWORD:-closetpass}@db/${POSTGRES_DB:-closetdb}
-      MQTT_BROKER_HOST: broker
-      MQTT_BROKER_PORT: 1883
-      APP_HOST: ${APP_HOST:-https://api-closet.lthome.com}
+      GOOGLE_SHEET_INVENTORY_ID: ${GOOGLE_SHEET_INVENTORY_ID:-}
+      GOOGLE_SHEET_REMINDERS_ID: ${GOOGLE_SHEET_REMINDERS_ID:-}
+      APP_HOST: ${APP_HOST:-http://localhost}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/json:/app/data/json
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.closet-api.rule=Host(`api-closet.lthome.com`)"
@@ -53,15 +25,17 @@ services:
     networks:
       - traefik
       - default
-    depends_on:
-      db:
-        condition: service_healthy
-      broker:
-        condition: service_started
 
   frontend:
     image: docker.lthome.us:5000/had/closet-frontend:latest
     restart: unless-stopped
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.closet-frontend.rule=Host(`closet.lthome.com`)"
@@ -77,7 +51,5 @@ services:
 networks:
   traefik:
     external: true
+  default:
 
-volumes:
-  mosquitto_data:
-  mosquitto_log:

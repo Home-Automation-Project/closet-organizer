@@ -1,15 +1,7 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List, Optional
+from fastapi import APIRouter, HTTPException
 
-from app.dependencies import get_db
-from app.crud import crud
-from app.schemas.schemas import (
-    ClosetCreate, ClosetDetailOut, ClosetOut, ClosetUpdate,
-    ShelfCreate, ShelfOut, ShelfUpdate,
-    BasketCreate, BasketOut, BasketUpdate, BasketWithStatus,
-)
-from app.models.models import BasketStatus
+from app.data_loader import DataLoader
 
 router = APIRouter(prefix="/closets", tags=["closets"])
 
@@ -18,126 +10,114 @@ router = APIRouter(prefix="/closets", tags=["closets"])
 # Closets
 # ---------------------------------------------------------------------------
 
-@router.get("", response_model=List[ClosetOut])
-async def list_closets(db: AsyncSession = Depends(get_db)):
-    return await crud.get_closets(db)
+@router.get("")
+async def list_closets():
+    """Get all closets with their shelves and baskets."""
+    closets = DataLoader.get_closets()
+    return closets
 
 
-@router.post("", response_model=ClosetOut, status_code=201)
-async def create_closet(data: ClosetCreate, db: AsyncSession = Depends(get_db)):
-    return await crud.create_closet(db, data)
+@router.post("", status_code=201)
+async def create_closet(data: dict):
+    """Create a new closet (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Creating closets not implemented - data is static JSON")
 
 
-@router.get("/{closet_id}", response_model=ClosetDetailOut)
-async def get_closet(closet_id: int, db: AsyncSession = Depends(get_db)):
-    obj = await crud.get_closet(db, closet_id)
-    if not obj:
+@router.get("/{closet_id}")
+async def get_closet(closet_id: str):
+    """Get a single closet with its structure."""
+    closet = DataLoader.get_closet(closet_id)
+    if not closet:
         raise HTTPException(404, "Closet not found")
-    # Attach status to each basket
-    shelves_out = []
-    for shelf in obj.shelves:
-        baskets_out = []
-        for basket in shelf.baskets:
-            inv = await crud.get_inventory(db, basket.id)
-            status = crud.compute_basket_status(inv)
-            b = BasketWithStatus.model_validate(basket)
-            b.status = status
-            baskets_out.append(b)
-        shelf_dict = ShelfOut.model_validate(shelf).model_dump()
-        shelf_dict["baskets"] = baskets_out
-        shelves_out.append(shelf_dict)
-    closet_dict = ClosetOut.model_validate(obj).model_dump()
-    closet_dict["shelves"] = shelves_out
-    return closet_dict
+    return closet
 
 
-@router.put("/{closet_id}", response_model=ClosetOut)
-async def update_closet(closet_id: int, data: ClosetUpdate, db: AsyncSession = Depends(get_db)):
-    obj = await crud.update_closet(db, closet_id, data)
-    if not obj:
-        raise HTTPException(404, "Closet not found")
-    return obj
+@router.put("/{closet_id}")
+async def update_closet(closet_id: str, data: dict):
+    """Update a closet (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Updating closets not implemented - data is static JSON")
 
 
 @router.delete("/{closet_id}", status_code=204)
-async def delete_closet(closet_id: int, db: AsyncSession = Depends(get_db)):
-    if not await crud.delete_closet(db, closet_id):
-        raise HTTPException(404, "Closet not found")
+async def delete_closet(closet_id: str):
+    """Delete a closet (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Deleting closets not implemented - data is static JSON")
 
 
-# ---------------------------------------------------------------------------
-# Shelves
-# ---------------------------------------------------------------------------
-
+# Shelves router - simplified for static data
 shelves_router = APIRouter(prefix="/shelves", tags=["shelves"])
 
 
-@shelves_router.get("", response_model=List[ShelfOut])
-async def list_shelves(closet_id: int, db: AsyncSession = Depends(get_db)):
-    return await crud.get_shelves(db, closet_id)
+@shelves_router.get("")
+async def list_shelves(closet_id: str):
+    """Get shelves for a closet."""
+    closet = DataLoader.get_closet(closet_id)
+    if not closet:
+        raise HTTPException(404, "Closet not found")
+    return closet.get("shelves", [])
 
 
-@shelves_router.post("", response_model=ShelfOut, status_code=201)
-async def create_shelf(data: ShelfCreate, db: AsyncSession = Depends(get_db)):
-    return await crud.create_shelf(db, data)
+@shelves_router.post("", status_code=201)
+async def create_shelf(data: dict):
+    """Create a shelf (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Creating shelves not implemented - data is static JSON")
 
 
-@shelves_router.get("/{shelf_id}", response_model=ShelfOut)
-async def get_shelf(shelf_id: int, db: AsyncSession = Depends(get_db)):
-    obj = await crud.get_shelf(db, shelf_id)
-    if not obj:
-        raise HTTPException(404, "Shelf not found")
-    return obj
+@shelves_router.get("/{shelf_id}")
+async def get_shelf(shelf_id: str):
+    """Get a single shelf (not implemented)."""
+    raise HTTPException(501, "Getting individual shelves not implemented")
 
 
-@shelves_router.put("/{shelf_id}", response_model=ShelfOut)
-async def update_shelf(shelf_id: int, data: ShelfUpdate, db: AsyncSession = Depends(get_db)):
-    obj = await crud.update_shelf(db, shelf_id, data)
-    if not obj:
-        raise HTTPException(404, "Shelf not found")
-    return obj
+@shelves_router.put("/{shelf_id}")
+async def update_shelf(shelf_id: str, data: dict):
+    """Update a shelf (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Updating shelves not implemented - data is static JSON")
 
 
 @shelves_router.delete("/{shelf_id}", status_code=204)
-async def delete_shelf(shelf_id: int, db: AsyncSession = Depends(get_db)):
-    if not await crud.delete_shelf(db, shelf_id):
-        raise HTTPException(404, "Shelf not found")
+async def delete_shelf(shelf_id: str):
+    """Delete a shelf (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Deleting shelves not implemented - data is static JSON")
 
 
-# ---------------------------------------------------------------------------
-# Baskets
-# ---------------------------------------------------------------------------
-
+# Baskets router - simplified for static data
 baskets_router = APIRouter(prefix="/baskets", tags=["baskets"])
 
 
-@baskets_router.get("", response_model=List[BasketOut])
-async def list_baskets(shelf_id: int, db: AsyncSession = Depends(get_db)):
-    return await crud.get_baskets(db, shelf_id)
+@baskets_router.get("")
+async def list_baskets(shelf_id: str):
+    """Get baskets for a shelf."""
+    shelves = []
+    for closet in DataLoader.get_closets():
+        shelves.extend(closet.get("shelves", []))
+    
+    for shelf in shelves:
+        if shelf["id"] == shelf_id:
+            return shelf.get("baskets", [])
+    
+    raise HTTPException(404, "Shelf not found")
 
 
-@baskets_router.post("", response_model=BasketOut, status_code=201)
-async def create_basket(data: BasketCreate, db: AsyncSession = Depends(get_db)):
-    return await crud.create_basket(db, data)
+@baskets_router.post("", status_code=201)
+async def create_basket(data: dict):
+    """Create a basket (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Creating baskets not implemented - data is static JSON")
 
 
-@baskets_router.get("/{basket_id}", response_model=BasketOut)
-async def get_basket(basket_id: int, db: AsyncSession = Depends(get_db)):
-    obj = await crud.get_basket(db, basket_id)
-    if not obj:
-        raise HTTPException(404, "Basket not found")
-    return obj
+@baskets_router.get("/{basket_id}")
+async def get_basket(basket_id: str):
+    """Get a single basket (not implemented)."""
+    raise HTTPException(501, "Getting individual baskets not implemented")
 
 
-@baskets_router.put("/{basket_id}", response_model=BasketOut)
-async def update_basket(basket_id: int, data: BasketUpdate, db: AsyncSession = Depends(get_db)):
-    obj = await crud.update_basket(db, basket_id, data)
-    if not obj:
-        raise HTTPException(404, "Basket not found")
-    return obj
+@baskets_router.put("/{basket_id}")
+async def update_basket(basket_id: str, data: dict):
+    """Update a basket (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Updating baskets not implemented - data is static JSON")
 
 
 @baskets_router.delete("/{basket_id}", status_code=204)
-async def delete_basket(basket_id: int, db: AsyncSession = Depends(get_db)):
-    if not await crud.delete_basket(db, basket_id):
-        raise HTTPException(404, "Basket not found")
+async def delete_basket(basket_id: str):
+    """Delete a basket (not implemented - data is static JSON)."""
+    raise HTTPException(501, "Deleting baskets not implemented - data is static JSON")

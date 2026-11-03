@@ -1,51 +1,37 @@
-from typing import List, Optional
-from fastapi import APIRouter, Depends, Query
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Optional
+from fastapi import APIRouter, Query, HTTPException
 
-from app.dependencies import get_db
-from app.crud import crud
-from app.schemas.schemas import ItemDefinitionOut
-from app.models.models import BasketType
+from app.data_loader import DataLoader
 
 router = APIRouter(prefix="/firstaid", tags=["firstaid"])
 
-BASIC_KIT_SUB_BINS = None  # flat list, no sub-bins for basic kit
 
-ADVANCED_SUB_BINS = [
-    "TRAUMA", "WOUND", "AIRWAY", "BURN", "IMMOB",
-    "MEDS", "DX", "PROCEDURE", "PPE", "DOCS",
-    "WATER", "COMFORT",
-]
-
-
-@router.get("/kit/basic", response_model=List[ItemDefinitionOut])
-async def get_basic_kit(
-    category: Optional[str] = Query(default=None),
-    db: AsyncSession = Depends(get_db),
-):
-    items = await crud.get_item_definitions(db, basket_type=BasketType.FIRST_AID_BASIC)
+@router.get("/kit/basic")
+async def get_basic_kit(category: Optional[str] = Query(default=None)):
+    """Get basic first aid kit items."""
+    items = DataLoader.get_first_aid_basic_items()
     if category:
-        items = [i for i in items if i.category == category]
+        items = [i for i in items if i.get("category") == category]
     return items
 
 
-@router.get("/kit/advanced/bins", response_model=List[str])
+@router.get("/kit/advanced/bins")
 async def list_advanced_bins():
-    return ADVANCED_SUB_BINS
+    """Get list of advanced first aid kit bins."""
+    bins = DataLoader.get_first_aid_advanced_bins()
+    return [{"id": b["id"], "label": b["label"]} for b in bins]
 
 
-@router.get("/kit/advanced", response_model=List[ItemDefinitionOut])
-async def get_advanced_kit(
-    sub_bin: Optional[str] = Query(default=None),
-    db: AsyncSession = Depends(get_db),
-):
-    return await crud.get_item_definitions(
-        db, basket_type=BasketType.FIRST_AID_ADVANCED, sub_bin=sub_bin
-    )
+@router.get("/kit/advanced")
+async def get_advanced_kit(sub_bin: Optional[str] = Query(default=None)):
+    """Get advanced first aid kit items, optionally filtered by sub-bin."""
+    items = DataLoader.get_first_aid_advanced_items(sub_bin)
+    return items
 
 
 @router.get("/cpr")
 async def get_cpr_steps():
+    """Get CPR steps and emergency information."""
     return {
         "title": "CPR Steps",
         "poison_control": "1-800-222-1222",

@@ -1,7 +1,4 @@
-import asyncio
 import logging
-import os
-import subprocess
 import sys
 from contextlib import asynccontextmanager
 
@@ -10,7 +7,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import closets, inventory, reminders, cleaning, firstaid, family
 from app.routers.closets import shelves_router, baskets_router
-from app.services import mqtt_service, reminder_service
 
 logging.basicConfig(
     level=logging.INFO,
@@ -25,38 +21,14 @@ async def lifespan(app: FastAPI):
     # ------------------------------------------------------------------ #
     # STARTUP
     # ------------------------------------------------------------------ #
-    logger.info("Running Alembic migrations...")
-    result = subprocess.run(
-        ["alembic", "upgrade", "head"],
-        cwd=os.path.dirname(os.path.dirname(__file__)),  # /app (backend root)
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode != 0:
-        logger.error("Alembic migration failed:\n%s", result.stderr)
-        raise RuntimeError("Database migration failed")
-    logger.info("Migrations complete:\n%s", result.stdout)
-
-    # Run DB seed (idempotent)
-    from app.seed import run_seed
-    await run_seed()
-
-    # Start MQTT
-    mqtt_host = os.environ.get("MQTT_BROKER_HOST", "localhost")
-    mqtt_port = int(os.environ.get("MQTT_BROKER_PORT", 1883))
-    mqtt_service.set_event_loop(asyncio.get_event_loop())
-    mqtt_service.start(mqtt_host, mqtt_port)
-
-    # Start scheduler
-    reminder_service.start()
+    logger.info("Closet Organizer API starting...")
+    logger.info("Data sources: Static JSON + Google Sheets")
 
     yield
 
     # ------------------------------------------------------------------ #
     # SHUTDOWN
     # ------------------------------------------------------------------ #
-    reminder_service.stop()
-    mqtt_service.stop()
     logger.info("Application shutdown complete")
 
 
