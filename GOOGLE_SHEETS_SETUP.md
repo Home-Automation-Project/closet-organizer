@@ -30,11 +30,13 @@ The app stores:
 
 ### 1.2 Create New Project
 
-- Click "Select a Project" (top left)
-- Click "NEW PROJECT"
+- At the top of the page, look for the project dropdown (shows current project name)
+- Click it
+- Click "NEW PROJECT" button
 - Name: `Closet Organizer` (or whatever you like)
 - Click "CREATE"
 - Wait for project to be created (~1 minute)
+- The new project will automatically become active
 
 ### 1.3 Enable Sheets API
 
@@ -231,66 +233,58 @@ npm run dev
 - Authenticate with Google
 - Inventory and reminders should load from Sheets
 
-### 5.2 Deploy to GitHub
+### 5.2 Deploy to GitHub (Using GitHub Secrets)
 
-```bash
-cd ..
-git add frontend/.env
-git commit -m "Add Google Sheets credentials"
-git push origin main
-```
+For production, use GitHub Secrets instead of `.env` file:
 
-**Important**: Make sure `frontend/.env` is NOT in `.gitignore` (it should not be). Actually, it SHOULD be in `.gitignore` for security.
-
-Instead:
-
-1. Add `.env` to `.gitignore` (for security)
-2. Use GitHub Secrets for production
-
-### 5.3 Use GitHub Secrets (Recommended)
-
-For production deployment, use GitHub Secrets:
-
-1. Go to repository Settings → Secrets and Variables → Actions
-2. Click "New repository secret" for each:
-   - `VITE_GOOGLE_CLIENT_ID`
+1. **Do NOT commit `.env` to Git** - it's in `.gitignore` for security
+2. Go to your GitHub repository
+3. Click Settings → Secrets and variables → Actions
+4. Click "New repository secret" and add each:
+   - `VITE_GOOGLE_CLIENT_ID` 
    - `VITE_GOOGLE_API_KEY`
    - `VITE_INVENTORY_SHEET_ID`
    - `VITE_REMINDERS_SHEET_ID`
 
-3. Update `.github/workflows/deploy-frontend.yml`:
+The `.github/workflows/deploy-frontend.yml` already reads from these secrets automatically.
 
-```yaml
-- name: Build frontend
-  run: cd frontend && npm run build
-  env:
-    VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
-    VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
-    VITE_INVENTORY_SHEET_ID: ${{ secrets.VITE_INVENTORY_SHEET_ID }}
-    VITE_REMINDERS_SHEET_ID: ${{ secrets.VITE_REMINDERS_SHEET_ID }}
+5. Commit your changes (but NOT the `.env` file):
+
+```bash
+git add .
+git commit -m "Ready for Google Sheets deployment"
+git push origin main
 ```
 
-4. Commit and push (without `.env` file)
-5. GitHub Actions builds with secrets
-6. Site deploys to GitHub Pages
+GitHub Actions will automatically build with your secrets and deploy to GitHub Pages.
+
+### 5.3 Local Development (Optional)
+
+For local testing before deploying:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+- Visit http://localhost:5173
+- The app will look for credentials in `frontend/.env` (local only)
+- Make sure to create `frontend/.env` with your values for local testing
+- This `.env` file will NOT be committed to Git (already in `.gitignore`)
 
 ## Step 6: First-Time Login
 
-### 6.1 First Time User
+When you deploy to GitHub Pages and visit your site for the first time:
 
-When someone opens the app for the first time:
+1. The app loads and shows the interface
+2. For Inventory and Reminders sections, click "Login with Google"
+3. A Google login popup appears
+4. Sign in with the Google account that has Editor access to your Sheets
+5. Grant the requested permissions
+6. You'll be logged in and the app will load your inventory and reminders from Google Sheets
 
-1. Click "Login with Google" (if not auto-prompted)
-2. Google login popup appears
-3. Sign in with the Google account that has access to the Sheets
-4. Click "Allow" for permissions
-5. App loads inventory and reminders from Sheets
-
-### 6.2 Persistent Login
-
-- Browser remembers login
-- No need to sign in every time
-- Sign out in app settings if needed
+**Note**: Browser remembers your login, so you won't need to sign in every time you visit the app. You can sign out in the app settings if needed.
 
 ## Using the App
 
@@ -402,8 +396,7 @@ Tip: You can restrict editing with View-only shares if someone should only read 
 
 ## Support
 
-- See [README.md](./README.md) for general info
-- See [ARCHITECTURE.md](./ARCHITECTURE.md) for technical details
+- See [README.md](./README.md) for general info and deployment instructions
 - GitHub Issues for bugs: https://github.com/Home-Automation-Project/closet-organizer/issues
 
 ---
