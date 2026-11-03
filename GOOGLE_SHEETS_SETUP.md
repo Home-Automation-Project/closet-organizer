@@ -233,9 +233,58 @@ cat frontend/.env.example  # Should exist
 cat .gitignore | grep env  # Should show ".env"
 ```
 
-## Step 5: Test & Deploy
+## Step 5: Deploy to GitHub Pages with Secrets
 
-### 5.1 Test Locally (Optional)
+This is the crucial step that makes everything work! Here's how it works:
+
+1. **You add credentials to GitHub Secrets** (not in code files)
+2. **GitHub Actions reads those secrets** when building
+3. **The secrets are injected as environment variables** during build
+4. **Vite embeds them into the built JavaScript** (only the Client ID and API Key, which are meant to be public)
+5. **The built app is deployed to GitHub Pages** with credentials included
+
+### 5.1 Add Credentials to GitHub Secrets
+
+**This is required for the site to work!**
+
+1. Go to your GitHub repository
+2. Click **Settings** (top menu)
+3. Click **Secrets and variables** (left sidebar)
+4. Click **Actions**
+5. Click **"New repository secret"** button
+6. Add each credential:
+
+**First secret:**
+- Name: `VITE_GOOGLE_CLIENT_ID`
+- Value: Your Client ID from Step 2.5 (ends with `.apps.googleusercontent.com`)
+- Click "Add secret"
+
+**Second secret:**
+- Name: `VITE_GOOGLE_API_KEY`
+- Value: Your API Key from Step 2.6 (starts with `AIza...`)
+- Click "Add secret"
+
+**Third secret:**
+- Name: `VITE_INVENTORY_SHEET_ID`
+- Value: Your Inventory Sheet ID from Step 3.4
+- Click "Add secret"
+
+**Fourth secret:**
+- Name: `VITE_REMINDERS_SHEET_ID`
+- Value: Your Reminders Sheet ID from Step 3.8
+- Click "Add secret"
+
+**Important**: GitHub Secrets are:
+- ✅ Encrypted and hidden from view
+- ✅ Never shown in logs
+- ✅ Automatically passed to GitHub Actions
+- ✅ Used during the build process
+- ❌ NOT visible in the repository
+- ❌ NOT visible in the built code (though Client ID and API Key are meant to be public for OAuth)
+
+### 5.2 Test Locally (Optional)
+
+For local testing before deploying to GitHub Pages:
 
 ```bash
 cd frontend
@@ -244,27 +293,13 @@ npm run dev
 ```
 
 - Visit http://localhost:5173
-- App should load
-- Click "Login" (if inventory/reminders appear)
-- Authenticate with Google
-- Inventory and reminders should load from Sheets
+- Create a `frontend/.env` file with your credentials for local testing
+- This `.env` file is in `.gitignore` so it won't be committed
+- App should load and authenticate with Google
 
-### 5.2 Deploy to GitHub (Using GitHub Secrets)
+### 5.3 Push to GitHub
 
-For production, use GitHub Secrets instead of `.env` file:
-
-1. **Do NOT commit `.env` to Git** - it's in `.gitignore` for security
-2. Go to your GitHub repository
-3. Click Settings → Secrets and variables → Actions
-4. Click "New repository secret" and add each:
-   - `VITE_GOOGLE_CLIENT_ID` 
-   - `VITE_GOOGLE_API_KEY`
-   - `VITE_INVENTORY_SHEET_ID`
-   - `VITE_REMINDERS_SHEET_ID`
-
-The `.github/workflows/deploy-frontend.yml` already reads from these secrets automatically.
-
-5. Commit your changes (but NOT the `.env` file):
+Once secrets are added to GitHub:
 
 ```bash
 git add .
@@ -272,22 +307,23 @@ git commit -m "Ready for Google Sheets deployment"
 git push origin main
 ```
 
-GitHub Actions will automatically build with your secrets and deploy to GitHub Pages.
+**Do NOT push the `.env` file!** (It's in `.gitignore` automatically)
 
-### 5.3 Local Development (Optional)
+### 5.4 GitHub Actions Automatically Deploys
 
-For local testing before deploying:
+1. Push triggers GitHub Actions workflow
+2. Workflow reads secrets from repository settings
+3. Secrets are passed as environment variables during build
+4. Vite embeds credentials into the built app
+5. Built app is deployed to GitHub Pages (~2 minutes)
+6. Site is live at: `https://YOUR_USERNAME.github.io/closet-organizer/`
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-- Visit http://localhost:5173
-- The app will look for credentials in `frontend/.env` (local only)
-- Make sure to create `frontend/.env` with your values for local testing
-- This `.env` file will NOT be committed to Git (already in `.gitignore`)
+When users visit your site:
+- The app loads from GitHub Pages
+- Credentials are already embedded (Client ID and API Key)
+- Users click "Login with Google"
+- Browser communicates directly with Google Sheets API
+- No server needed!
 
 ## Step 6: First-Time Login
 
